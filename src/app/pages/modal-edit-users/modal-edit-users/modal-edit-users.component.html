@@ -1,0 +1,60 @@
+<div class="col-lg-12 col-md-12 col-sm-12">
+    <!-- Título del modal -->
+    <h2 mat-dialog-title>Actualización de usuarios</h2>
+    <br>
+    <div mat-dialog-content>
+        <!-- Formulario para editar los datos del usuario -->
+        <form [formGroup]="formUpdateUsers">
+            <div class="col-lg-12 col-md-12 col-sm-12 custom-margin">
+                <div class="row">
+                    <!-- Campo para el nombre del usuario -->
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput formControlName="nombre" />
+                        </mat-form-field>
+                    </div>
+                    <!-- Campo para el correo electrónico -->
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Correo electrónico</mat-label>
+                            <input matInput formControlName="email" />
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Selección del rol del usuario -->
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Rol</mat-label>
+                            <mat-select formControlName="rol_id">
+                                <mat-option value="">Seleccionar</mat-option>
+                                <mat-option value="1">Administrador</mat-option>
+                                <mat-option value="2">Usuario</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- Selección del administrador responsable -->
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Administrador</mat-label>
+                            <mat-select formControlName="administrador_id">
+                                <mat-option value="">Seleccionar</mat-option>
+                                <!-- Aquí se muestran los administradores disponibles -->
+                                @for (item of administratorsValues; track $index) {
+                                    <mat-option [value]=item.id>{{ item.nombre }}</mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Botones para cancelar o actualizar los datos -->
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancelar</button>
+        <button mat-button cdkFocusInitial (click)="updateUsers()" [disabled]="formUpdateUsers.invalid">Actualizar</button>
+    </mat-dialog-actions>
+</div>
