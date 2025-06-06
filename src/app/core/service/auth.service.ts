@@ -24,9 +24,11 @@ export class AuthService {
   public currentUser: Observable<User>; // Observable del usuario logueado
 
 
-  constructor( private readonly http: HttpClient,private readonly router: Router) {
-    this.currentUserSubject = new BehaviorSubject<User>(
-      JSON.parse(sessionStorage.getItem('currentUser') || '{}')
+  constructor( 
+    private readonly http: HttpClient,
+    private readonly router: Router) {
+      this.currentUserSubject = new BehaviorSubject<User>(
+        JSON.parse(sessionStorage.getItem('currentUser') || '{}')
     );
 
     this.currentUser = this.currentUserSubject.asObservable();

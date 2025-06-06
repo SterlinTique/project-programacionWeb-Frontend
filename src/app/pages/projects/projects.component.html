@@ -1,1 +1,104 @@
 <p>projects works!</p>
+<p>projects works!</p>
+<section class="content">
+    <div class="content-block">
+        @for (breadscrum of breadscrums; track breadscrums) {
+            <div class="block-header">
+                <!-- breadcrumb -->
+                <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.item" [active_item]="breadscrum.active">
+                </app-breadcrumb>
+            </div>
+        }
+        <div class="row-clearfix">
+            <div class="card-search">
+                <div class="card col-md-12">
+                    <div class="body">
+                        <!-- Formulario de búsqueda de proyectos -->
+                        <form [formGroup]="projectFormSearchFilter" class="row col-md-12 col-lg-12">
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-3">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Nombre del proyecto</mat-label>
+                                    <input matInput formControlName="nombre">
+                                </mat-form-field>
+                            </div>
+                        </form>
+
+                        <!-- Encabezado de la tabla de proyectos -->
+                        <div class="materialTableHeader">
+                            <div class="left">
+                                <ul class="header-button-left- ms-0">
+                                    <li class="tbl-title">
+                                        <h2>Lista de proyectos</h2>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="right">
+                                <ul class="tbl-export-btn">
+                                    <li>
+                                        <!-- Botón para crear un nuevo proyecto -->
+                                        <button mat-flat-button="bg-cyan" (click)="openModalCreateProject()" *ngIf="userRole === 1">Crear proyecto</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Tabla de proyectos -->
+                        <div class="table-responsive">
+                            <table mat-table [dataSource]="dataSource" class="w-100">
+                                <mat-spinner *ngIf="isLoading" class="loading-spinner"></mat-spinner> <!-- Indicador de carga -->
+                                <!-- Columnas de la tabla -->
+                                <ng-container matColumnDef="nombre">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre del proyecto </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="descripcion">
+                                    <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="fecha_creacion">
+                                    <th mat-header-cell *matHeaderCellDef> Fecha de creación </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.fecha_creacion | date:'dd/MM/yy HH:mm'}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="total_usuarios">
+                                    <th mat-header-cell *matHeaderCellDef> Total de usuarios </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.usuarios?.length}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="administrador">
+                                    <th mat-header-cell *matHeaderCellDef> Administrador </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.administrador?.nombre}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef width="15%"> Acciones </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <!-- Botón para visualizar un proyecto -->
+                                        <button mat-icon-button matTooltip="Visualizar proyecto" (click)="openModalViewProject(element)">
+                                            <mat-icon> visibility </mat-icon>
+                                        </button>
+                                        <!-- Botón para editar un proyecto -->
+                                        <button mat-icon-button matTooltip="Editar proyecto" (click)="openModalUpdateProject(element)" *ngIf="userRole === 1">
+                                            <mat-icon> edit </mat-icon>
+                                        </button>
+                                        <!-- Botón para eliminar un proyecto -->
+                                        <button mat-icon-button matTooltip="Eliminar proyecto" (click)="deleteProject(element.id)" *ngIf="userRole === 1">
+                                            <mat-icon> delete </mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <!-- Filas de la tabla -->
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                            <div *ngIf="dataSource && dataSource.data && dataSource.data.length === 0" class="no-data-message">
+                                No hay información disponible.
+                            </div>
+
+                            <!-- EL paginador para mantener el limite de proyectos visibles -->
+                            <mat-paginator [pageSize]="5" showFirstLastButtons [pageSizeOptions]="[5, 10, 15]">
+                            </mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

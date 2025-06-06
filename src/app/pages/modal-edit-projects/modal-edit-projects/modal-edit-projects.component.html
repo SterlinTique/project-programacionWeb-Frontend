@@ -1,0 +1,40 @@
+<div class="col-lg-12 col-md-12 col-sm-12">
+    <h2 mat-dialog-title>Edición de proyecto</h2>
+    <div mat-dialog-content>
+        <form [formGroup]="formEditProject">
+            <div class="col-lg-12 col-md-12 col-sm-12 custom-margin mt-4">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Nombre del proyecto</mat-label>
+                            <input matInput formControlName="nombre">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Descripción</mat-label>
+                            <textarea matInput formControlName="descripcion"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <!-- Campo para elegir el administrador del proyecto -->
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Administrador del proyecto</mat-label>
+                        <mat-select formControlName="administrador_id">
+                            <mat-option value="">Seleccionar</mat-option>
+                            <!-- Lista de administradores disponibles -->
+                            @for (item of administratorsValues; track $index) {
+                                <mat-option [value]="item.id">{{ item.nombre }}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </div>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancelar</button>
+        <button mat-button cdkFocusInitial [disabled]="formEditProject.invalid" (click)="onUpdate()">Actualizar</button>
+    </mat-dialog-actions>
+</div>
