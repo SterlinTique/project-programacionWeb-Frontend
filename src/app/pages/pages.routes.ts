@@ -3,6 +3,7 @@ import { UsersComponent } from "./users/users/users.component";
 import { ProjectsComponent } from "./projects/projects.component";
 // import { ProjectDetailComponent } from "./projects-detail/project-detail.component";
 import { AdminGuard } from "@core/guard/admin.guard";
+import { ModalViewProjectComponent } from "./modal-view-project/modal-view-project/modal-view-project.component";
 
 export const PAGES_ROUTE: Route[] = [
     {
@@ -13,5 +14,9 @@ export const PAGES_ROUTE: Route[] = [
     {
         path: "projects", // Ruta para la página de proyectos
         component: ProjectsComponent,
+    },
+    {
+        path: "projects/detail/:id",
+        component: ModalViewProjectComponent
     },
 ]

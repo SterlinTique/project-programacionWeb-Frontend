@@ -1,0 +1,41 @@
+<div class="card col-md-12">
+    <div class="body">
+        <div class="materialTableHeader">
+            <div class="left">
+                <h2>Lista de usuarios</h2>
+            </div>
+        </div>
+        <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
+            <table mat-table [dataSource]="usersList" class="w-100">
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox [checked]="selectAll" (change)="toggleAllUsers($event.checked)"></mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let user">
+                        <mat-checkbox
+                            [checked]="user.selected"
+                            (change)="user.selected = $event.checked">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                    <td mat-cell *matCellDef="let user">{{ user.nombre }}</td>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef>Correo</th>
+                    <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="['select', 'nombre', 'email']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['select', 'nombre', 'email']"></tr>
+            </table>
+            <div *ngIf="usersList && usersList.length === 0" class="no-data-message">
+                No hay usuarios asociados.
+            </div>
+        </div>
+        <div class="actions" style="margin-top: 16px; text-align: right;">
+            <button mat-button (click)="closeDialog()">Cancelar</button>
+            <button mat-flat-button color="primary" (click)="assignSelectedUsers()">Asociar seleccionados</button>
+        </div>
+    </div>
+</div>

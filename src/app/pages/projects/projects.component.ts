@@ -14,12 +14,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatProgressSpinner, MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ProjectsService } from 'app/services/projects/projects.service';
 import { MatDialog } from '@angular/material/dialog';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { ModalCreateProjectComponent } from '../modal-create-project/modal-create-project/modal-create-project.component';
 import { ModalEditProjectsComponent } from '../modal-edit-projects/modal-edit-projects/modal-edit-projects.component';
 import { AuthService } from '@core';
+import { ProjectsService } from 'app/services/projects/projects.service';
+import { ModalViewProjectComponent } from '../modal-view-project/modal-view-project/modal-view-project.component';
+
+import { Router } from '@angular/router';
 
 
 
@@ -91,7 +94,7 @@ export class ProjectsComponent {
     private readonly dialogModel: MatDialog,
     private readonly _sanckBar: MatSnackBar,
     private readonly authService: AuthService,
-    
+    private router: Router,
   ) { }
 
   userRole: any; // Variable con el rol_id almacenado para utilizarlo en el html
@@ -142,22 +145,36 @@ export class ProjectsComponent {
   }
 
   getProjectsByUserId(userId: number,): void {
-  this.isLoading = true;
-  this.projectService.getProjectsByUserId(userId).subscribe({
-    next: (response) => {
-      this.projectsList = response;
-      console.log('Listando proyectos del usuario', this.projectsList);
-      this.dataSource.data = response;
-      this.dataSource.paginator = this.paginator;
-      this.isLoading = false;
-    }
-  });
-}
+    this.isLoading = true;
+    this.projectService.getProjectsByUserId(userId).subscribe({
+      next: (response) => {
+        this.projectsList = response;
+        console.log('Listando proyectos del usuario', this.projectsList);
+        this.dataSource.data = response;
+        this.dataSource.paginator = this.paginator;
+        this.isLoading = false;
+      }
+    });
+  }
 
   openModalViewProject(project: any): void {
-  // para visualizar el proyecto
-  console.log(project);
-}
+    const dialogRef = this.dialogModel.open(ModalViewProjectComponent, {
+      minWidth: '300px',
+      maxWidth: '1000px',
+      width: '820px',
+      disableClose: true,
+      data: { project: project }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+      }
+    })
+  }
+
+  openDetailProject(project: any): void {
+    this.router.navigate(['/page/projects/detail', project.id]);
+  }
 
   openModalCreateProject(): void {
     const dialogRef = this.dialogModel.open(ModalCreateProjectComponent, {

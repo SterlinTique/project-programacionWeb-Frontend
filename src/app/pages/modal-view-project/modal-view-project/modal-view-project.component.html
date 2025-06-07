@@ -1,0 +1,94 @@
+<section class="content">
+    <div class="content-block">
+        @for (breadscrum of breadscrums; track breadscrums) {
+            <div class="block-header" style="margin-bottom: 16px;">
+                <!-- breadcrumb -->
+                <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.item" [active_item]="breadscrum.active"></app-breadcrumb>
+            </div>
+        }
+        <div class="row">
+
+            <div class="col-lg-4 col-md-4 col-sm-12 d-flex align-items-stretch">
+                <mat-card style="background-color: #fff; width: 100%;">
+                    <!-- card para la nformación del proyecto -->
+                    <mat-card-title style="text-align: center; margin-top: 16px;">Información del proyecto</mat-card-title>
+                    <mat-card-content style="display: flex; flex-direction: column; display: flex; flex-direction: column; justify-content: center; height: 100%;">
+                        <div style="margin-bottom: 16px;">
+                            <strong>Nombre:</strong>
+                            <p>{{ project.nombre }}</p>
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                            <strong>Descripción:</strong>
+                            <p>{{ project.descripcion }}</p>
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                            <strong>Administrador:</strong>
+                            <p>{{ project.administrador?.nombre }}</p>
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                            <strong>Fecha de creación:</strong>
+                            <p>{{ project.fecha_creacion | date:'dd/MM/yy HH:mm' }}</p>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            
+
+            <div class="col-lg-8 col-md-8 col-sm-12">
+                <mat-card style="background-color: #fff; padding: 16px;">
+                    <!-- Usuarios asociados -->
+                    <div class="materialTableHeader">
+                        <div class="left">
+                            <ul class="header-button-left- ms-0">
+                                <li class="tbl-title">
+                                    <h2>Lista de usuarios</h2>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="right">
+                            <ul class="tbl-export-btn">
+                                <li>
+                                    <button mat-flat-button color="primary" (click)="openAssignUsersModal()" *ngIf="userRole === 1">Asociar nuevo usuario</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table mat-table [dataSource]="usersList" class="w-100">
+                            <!-- Columnas de la tabla -->
+                            <ng-container matColumnDef="nombre">
+                                <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                <td mat-cell *matCellDef="let user"> {{ user.nombre }} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="email">
+                                <th mat-header-cell *matHeaderCellDef> Correo </th>
+                                <td mat-cell *matCellDef="let user"> {{ user.email }} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="acciones">
+                                <th mat-header-cell *matHeaderCellDef width="15%"> Acciones </th>
+                                <td mat-cell *matCellDef="let user">
+                                    <button mat-icon-button matTooltip="Eliminar usuario" (click)="removeUserFromProject(user.id)" *ngIf="userRole === 1">
+                                        <mat-icon> delete </mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
+                            <!-- Filas de la tabla -->
+                            <tr mat-header-row *matHeaderRowDef="['nombre', 'email', 'acciones']"></tr>
+                            <tr mat-row *matRowDef="let row; columns: ['nombre', 'email', 'acciones']"></tr>
+                        </table>
+                        <div *ngIf="usersList && usersList.data.length === 0" class="no-data-message">
+                            No hay usuarios asociados.
+                        </div>
+                        <mat-paginator [pageSize]="5" showFirstLastButtons [pageSizeOptions]="[5, 10, 15]"></mat-paginator>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12"></div>
+            <div class="col-lg-8 col-md-8 col-sm-12 d-flex justify-content-center" style="margin-top: 16px;">
+                <button mat-raised-button color="primary" (click)="volver()">Volver</button>
+            </div>
+        </div>
+    </div>
+</section>

@@ -10,6 +10,11 @@
               <div class=" image">
                 <img src="imagen de preferencia" class="img-circle user-img-circle" alt="User Image" />
               </div>
+              <!-- Esta parte es para mostrar el tipo de rol del usuario logueado-->
+              <div class="profile-usertitle">
+                <div class="sidebar-userpic-name">{{ userLogged }}</div>
+                <div>{{ getUserRole(rolAuthority) }}</div>
+              </div>
             </div>
             <div class="profile-usertitle">
               <div class="sidebar-userpic-name">{{ userLogged }}</div>

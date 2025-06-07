@@ -117,9 +117,11 @@ export class SidebarComponent
     return this._domSanitizer.bypassSecurityTrustHtml(html);
   }
 
+  rolAuthority: any; // Variable para almacenar el rol del usuario conectado
   // Método que se ejecuta cuando el componente se inicializa
   ngOnInit() { 
     const rolAuthority = this._authService.getAuthFromSessionStorage().rol_id; // Obtiene el rol del usuario conectado
+    this.rolAuthority = rolAuthority; // para usarlo en el HTML para mostrar el rol del usuario
     this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem?.rolAuthority.includes(rolAuthority));  // Filtra los elementos de la barra lateral según el rol del usuario
     this.initLeftSidebar();   // Inicializa la barra lateral
     this.bodyTag = this._document.body; // Manipular los estilos generales
@@ -165,6 +167,18 @@ export class SidebarComponent
     if (body.classList.contains('side-closed-hover')) {
       this._renderer.removeClass(this._document.body, 'side-closed-hover');
       this._renderer.addClass(this._document.body, 'submenu-closed');
+    }
+  }
+
+  // Método para mostrar el rol del usuario conectado
+  getUserRole(rolId: number): string {
+    switch (rolId) {
+      case 1:
+        return 'Administrador';
+      case 2:
+        return 'Usuario';
+      default:
+        return 'Desconocido';
     }
   }
 }

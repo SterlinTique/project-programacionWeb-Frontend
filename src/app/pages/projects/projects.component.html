@@ -36,6 +36,7 @@
                                 <ul class="tbl-export-btn">
                                     <li>
                                         <!-- Botón para crear un nuevo proyecto -->
+                                        <!-- el *ngIf="userRole === 1" para ocultar los botones de los usuarios normales-->
                                         <button mat-flat-button="bg-cyan" (click)="openModalCreateProject()" *ngIf="userRole === 1">Crear proyecto</button>
                                     </li>
                                 </ul>
@@ -71,7 +72,7 @@
                                     <th mat-header-cell *matHeaderCellDef width="15%"> Acciones </th>
                                     <td mat-cell *matCellDef="let element">
                                         <!-- Botón para visualizar un proyecto -->
-                                        <button mat-icon-button matTooltip="Visualizar proyecto" (click)="openModalViewProject(element)">
+                                        <button mat-icon-button matTooltip="Visualizar proyecto" (click)="openDetailProject(element)">
                                             <mat-icon> visibility </mat-icon>
                                         </button>
                                         <!-- Botón para editar un proyecto -->
